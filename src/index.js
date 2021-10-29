@@ -1,6 +1,7 @@
 const express = require('express');
 require('dotenv').config(); // dotenv package import
 const logger = require('./config/logger');
+const routeCatalog = require('./routes/v1/index');
 const { morganMiddleware } = require('./middlewares'); // require morgan middleware
 const { ApiError } = require('./payload/ApiError');
 const httpStatus = require('http-status');
@@ -28,7 +29,7 @@ app.use(helmet());  // adding Helmet to enhance your API's Security
  * Router Middleware
  */
 
-const routeCatalog = require('./routes/v1/index');
+
 
 app.use('/v1', routeCatalog);
 
@@ -40,7 +41,7 @@ app.use((req, res , next) => {
   let status = httpStatus.NOT_FOUND;
   let error ='Api Not Found';
   
-res.status(status).send(new ApiError(status, error));
+res.status(401).send(new ApiError(status, error));
 });
 
 // All The Exceptions Error Handling (Custom Error Middleware)
